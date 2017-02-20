@@ -18,6 +18,7 @@ namespace Lab3Console
             return Convert.ToInt64(resultString);
         }
 
+        //преобразует число value к некоторому числу из диапазона begin - end.
         public static long GetNumberFromDiapason(long value, long begin, long end)
         {
             if (value >= begin && value <= end)
