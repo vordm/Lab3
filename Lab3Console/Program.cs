@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 
 namespace Lab3Console
@@ -56,6 +53,7 @@ namespace Lab3Console
       {
          //инициализируем данные, необходимые для работы программы
          //читаем их из аргументов командной строки или задаем по умолчанию
+           
 
          Common.Begin = (args.Length > 0) ? Convert.ToInt32(args[0]) : 0;
          Common.End = (args.Length > 1) ? Convert.ToInt32(args[1]) : 10000;
@@ -102,11 +100,7 @@ namespace Lab3Console
                      }
 
                      Thread.Sleep(10);
-                     Common.SevEvent();
-                     //Common.WaitForSingleObject();
-                     //Common.WaitForSingleObject();
-                     //Common.WaitForSingleObject();
-                     //Common.WaitForSingleObject();                     
+                     Common.SevEvent();                 
                   }
                }
             }
@@ -123,13 +117,10 @@ namespace Lab3Console
          Common.LeaveCriticalSection(Common.LockObject);
 
          GeneratorBase generator = GetGenerator(generationMethod);
-         object lockObject = GetLockObject(generationMethod);
-
+         
          ThreadTimeStopwatch threadTimeStopwatch = new ThreadTimeStopwatch();
          threadTimeStopwatch.Start();
-
-         Common.EnterCriticalSection(lockObject);
-
+         
          try
          {
             generator.Generate();
@@ -140,7 +131,6 @@ namespace Lab3Console
          }
          finally
          {
-            Common.LeaveCriticalSection(lockObject);
             Common.WaitForSingleObject();
             Common.SevEvent();            
          }
@@ -151,6 +141,8 @@ namespace Lab3Console
       {
          Action action = () => Worker(generationMethod, threadPriority);
          ThreadStart threadStart = new ThreadStart(action);
+
+
 
          Thread workThread = new Thread(threadStart);
          workThread.Priority = threadPriority;
